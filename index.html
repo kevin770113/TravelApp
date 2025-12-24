@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 東京極致之旅 (行前最終確認)</title>
+    <title>2026 東京極致之旅 (最終完整版)</title>
     <style>
         /* --- 系統變數 --- */
         :root {
@@ -161,7 +161,7 @@
             border-top: 1px solid transparent;
         }
         .card.expanded .card-body {
-            max-height: 3000px;
+            max-height: 3500px;
             border-top-color: #eee;
         }
         
@@ -413,8 +413,8 @@
                         subtitle: "成田機場 T1",
                         type: "transport",
                         details: [
-                            { text: "下機後：開啟 SIM 卡/eSIM，確保手機可上網。" },
-                            { text: "準備西瓜卡：若無實體卡，請用手機綁定數位卡或在機場機台購買。" },
+                            { text: "下機後重要提醒：開通 SIM 卡 / eSIM，確保手機可上網。" },
+                            { text: "準備西瓜卡 (Suica/PASMO)：若無實體卡，請用手機綁定數位卡或在機場機台購買。" },
                             { text: "預計辦理入境手續約 60-90 分鐘。" }
                         ],
                         route: [
@@ -424,14 +424,14 @@
                     },
                     {
                         time: "16:30",
-                        title: "【重要】領取 JR PASS",
+                        title: "【重要】領取 JR PASS & 票券",
                         subtitle: "B1 JR 東日本旅行服務中心",
                         type: "important",
                         details: [
                             { text: "地點：第一航廈 B1 樓層。" },
                             { text: "動作 1：出示憑證與護照，領取實體 JR 東京廣域周遊券。" },
                             { text: "動作 2：<strong>務必領取所有「新幹線指定席車票」</strong> (Day 4, 5, 6)。", alert: true },
-                            { text: "營業時間至 21:00。" }
+                            { text: "服務中心營業至 21:00。" }
                         ]
                     },
                     {
@@ -487,6 +487,7 @@
                     }
                 ]
             },
+
             {
                 day: 3,
                 date: "2026/01/11 (日)",
@@ -848,64 +849,150 @@
             {
                 day: 9,
                 date: "2026/01/17 (六)",
-                title: "皇居與鐵塔",
+                title: "築地美食與鐵塔",
                 sunset: "16:56",
                 jrActive: false,
                 cards: [
                     {
+                        time: "09:00",
+                        title: "移動：前往築地場外市場",
+                        subtitle: "都營大江戶線",
+                        type: "transport",
+                        details: [
+                            { text: "出發：從飯店步行至「上野御徒町站」(Ueno-okachimachi)。" },
+                            { text: "搭乘：都營大江戶線 (往兩國・大門方向)。" },
+                            { text: "抵達：築地市場站 (E18)。從 A1 出口出站，左轉即達。" }
+                        ],
+                        route: [
+                            { name: "上野御徒町", time: "09:00 出發", type: "start" },
+                            { name: "新御徒町/藏前/兩國", time: "途經", type: "mid" },
+                            { name: "森下/清澄白河/門前仲町", time: "途經", type: "mid" },
+                            { name: "月島/勝どき", time: "途經", type: "mid" },
+                            { name: "築地市場站", time: "09:16 抵達", type: "end" }
+                        ]
+                    },
+                    {
                         time: "09:30",
-                        title: "移動：前往東京站",
-                        subtitle: "JR 山手線",
-                        type: "transport",
+                        title: "築地場外市場",
+                        subtitle: "早午餐吃透透",
+                        type: "normal",
                         details: [
-                            { text: "皇居東御苑：丸之內北口出，步行至大手門。" },
-                            { text: "11:30 午餐：丸大樓 6F 蕎麥麵 吉祥庵。" }
-                        ],
-                        route: [
-                            { name: "上野站", time: "09:30 出發", type: "start" },
-                            { name: "東京站", time: "09:38 抵達", type: "end" }
+                            { text: "體驗：在充滿活力的市場巷弄間探索。" },
+                            { text: "美食：找間小店吃「海鮮丼」或「壽司」。" },
+                            { text: "小吃：熱騰騰「玉子燒串」(丸武、山長)、烤扇貝、烤和牛串、草莓大福。" },
+                            { text: "⚠️ 週六人潮眾多，請注意隨身財物。", alert: true }
                         ]
                     },
                     {
-                        time: "13:00",
-                        title: "移動：前往新橋",
-                        subtitle: "JR 山手線",
+                        time: "11:30",
+                        title: "散步前往濱離宮",
+                        subtitle: "步行消化",
                         type: "transport",
                         details: [
-                            { text: "濱離宮恩賜庭園：步行入園，中島御茶屋喝抹茶。" },
-                            { text: "結束後步行至銀座中央通 (步行者天國)。" }
+                            { text: "離開市場，導航定位「濱離宮恩賜庭園 大手門」。" },
+                            { text: "沿著新大橋通往新橋方向走，步行約 10-15 分鐘。" }
                         ],
                         route: [
-                            { name: "東京站", time: "13:00 出發", type: "start" },
-                            { name: "新橋站", time: "13:04 抵達", type: "end" }
+                            { name: "築地市場", time: "11:30 出發", type: "start" },
+                            { name: "濱離宮 (大手門)", time: "11:45 抵達", type: "end" }
                         ]
                     },
                     {
-                        time: "17:00",
+                        time: "12:00",
+                        title: "濱離宮恩賜庭園",
+                        subtitle: "御茶屋抹茶體驗",
+                        type: "normal",
+                        details: [
+                            { text: "在廣闊庭園中散步。" },
+                            { text: "推薦付費進入「中島御茶屋」，喝抹茶、吃和菓子。" },
+                            { text: "欣賞庭園池塘與背景汐留摩天大樓群的古今對比絕景。" }
+                        ]
+                    },
+                    {
+                        time: "13:30",
+                        title: "移動：前往銀座",
+                        subtitle: "步行",
+                        type: "transport",
+                        details: [
+                            { text: "從濱離宮大手門離開。" },
+                            { text: "步行約 10-15 分鐘抵達銀座最熱鬧的「中央通」。" }
+                        ],
+                        route: [
+                            { name: "濱離宮", time: "13:30 出發", type: "start" },
+                            { name: "銀座中央通", time: "13:45 抵達", type: "end" }
+                        ]
+                    },
+                    {
+                        time: "14:00",
+                        title: "銀座步行者天國",
+                        subtitle: "下午茶 & 逛街",
+                        type: "normal",
+                        details: [
+                            { text: "體驗：馬路封街，在正中央與「和光鐘樓」合影。" },
+                            { text: "下午茶：資生堂 Parlour 或 Ginza Six 內咖啡廳。" },
+                            { text: "逛街：UNIQLO 旗艦店、無印良品世界旗艦店、各大精品百貨。" }
+                        ]
+                    },
+                    {
+                        time: "16:30",
                         title: "移動：前往神谷町",
                         subtitle: "日比谷線",
                         type: "transport",
                         details: [
-                            { text: "景點：麻布台之丘、芝公園 4號地 (拍東京鐵塔)。" }
+                            { text: "走到銀座站，搭乘日比谷線 (往中目黑方向)。" }
                         ],
                         route: [
-                            { name: "銀座站", time: "17:00 出發", type: "start" },
-                            { name: "神谷町站", time: "17:10 抵達", type: "end" }
+                            { name: "銀座站", time: "16:30 出發", type: "start" },
+                            { name: "日比谷 / 虎之門Hills", time: "途經", type: "mid" },
+                            { name: "神谷町站", time: "16:37 抵達", type: "end" }
+                        ]
+                    },
+                    {
+                        time: "17:00",
+                        title: "麻布台之丘 & 鐵塔夜景",
+                        subtitle: "芝公園",
+                        type: "normal",
+                        details: [
+                            { text: "<strong>麻布台之丘</strong>：神谷町站直結，欣賞流線型建築與廣場點燈。" },
+                            { text: "<strong>芝公園 4號地</strong>：步行約 10 分鐘。拍攝東京鐵塔全景最經典角度，欣賞橘色暖光夜景。" }
                         ]
                     },
                     {
                         time: "19:00",
-                        title: "移動：回上野",
+                        title: "移動：返回上野",
                         subtitle: "日比谷線",
                         type: "transport",
                         details: [
-                            { text: "晚餐：博多內臟鍋。" },
-                            { text: "選擇 1：博多滿月 上野店。" },
-                            { text: "選擇 2：九州熱中屋 上野 LIVE。" }
+                            { text: "回到神谷町站，搭乘日比谷線 (往北千住方向)。" },
+                            { text: "車程約 23 分鐘。" }
                         ],
                         route: [
                             { name: "神谷町站", time: "19:00 出發", type: "start" },
-                            { name: "上野站", time: "19:25 抵達", type: "end" }
+                            { name: "虎之門/日比谷/銀座", time: "途經", type: "mid" },
+                            { name: "東銀座/築地/八丁堀", time: "途經", type: "mid" },
+                            { name: "茅場町/人形町/秋葉原", time: "途經", type: "mid" },
+                            { name: "上野站", time: "19:23 抵達", type: "end" }
+                        ]
+                    },
+                    {
+                        time: "19:30",
+                        title: "晚餐：博多內臟鍋",
+                        subtitle: "上野",
+                        type: "normal",
+                        details: [
+                            { text: "推薦 1 (首選)：<strong>博多滿月 (Hakata Mangetsu) 上野店</strong> (高CP值，熱鬧)。" },
+                            { text: "推薦 2 (備案)：<strong>九州熱中屋 上野 LIVE</strong>。" }
+                        ]
+                    },
+                    {
+                        time: "21:30",
+                        title: "回飯店休息",
+                        subtitle: "最後整理",
+                        type: "important",
+                        details: [
+                            { text: "步行回三井花園飯店。" },
+                            { text: "整理行李，確認戰利品，準備明天回國。" },
+                            { text: "🔥 <strong>再次確認明早 Skyliner 車票已備妥！</strong>", alert: true }
                         ]
                     }
                 ]
