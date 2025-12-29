@@ -3,1053 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 東京極致之旅 (最終完整版)</title>
+    <title>2026 東京極致之旅 (終極攻略版)</title>
     <style>
-        /* --- 系統變數 --- */
         :root {
             --primary: #2c3e50;
             --accent: #2980b9;
             --warning: #c0392b;
             --success: #27ae60;
             --jr-gold: #f39c12;
+            --disney-land: #e91e63;
+            --disney-sea: #3f51b5;
             --bg: #f4f4f4;
             --card-bg: #ffffff;
             --text-main: #333;
             --text-sub: #555;
         }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding-bottom: 100px;
-            color: var(--text-main);
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* --- Header --- */
-        .header {
-            background: #fff;
-            padding: 12px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border-bottom: 1px solid #ddd;
-        }
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .header h1 {
-            font-size: 18px;
-            font-weight: 800;
-            margin: 0;
-            color: var(--primary);
-        }
-        .header-sub {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 5px;
-            font-size: 13px;
-            color: var(--text-sub);
-        }
-        .sunset-tag {
-            background: #fff3e0;
-            color: #d35400;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        /* --- JR Banner --- */
-        .jr-banner {
-            background: linear-gradient(90deg, #f39c12, #e67e22);
-            color: white;
-            text-align: center;
-            padding: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            display: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); margin: 0; padding-bottom: 100px; color: var(--text-main); -webkit-tap-highlight-color: transparent; }
+        .header { background: #fff; padding: 12px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-bottom: 1px solid #ddd; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 18px; font-weight: 800; margin: 0; color: var(--primary); }
+        .header-sub { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; font-size: 13px; color: var(--text-sub); }
+        .sunset-tag { background: #fff3e0; color: #d35400; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 4px; }
+        .jr-banner { background: linear-gradient(90deg, #f39c12, #e67e22); color: white; text-align: center; padding: 10px; font-size: 14px; font-weight: bold; display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .jr-banner.active { display: block; }
-
-        /* --- 內容區 --- */
-        .content-area {
-            padding: 12px;
-            max-width: 600px;
-            margin: 0 auto;
-            min-height: 80vh;
-        }
+        .content-area { padding: 12px; max-width: 600px; margin: 0 auto; min-height: 80vh; }
         .day-page { display: none; }
         .day-page.active { display: block; animation: fadeIn 0.3s ease-out; }
-
-        /* --- 卡片樣式 --- */
-        .card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            margin-bottom: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            overflow: hidden;
-            border-left: 5px solid transparent;
-            transition: transform 0.1s;
-        }
-        
+        .card { background: var(--card-bg); border-radius: 10px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden; border-left: 5px solid transparent; transition: transform 0.1s; }
         .card[data-type="transport"] { border-left-color: var(--accent); }
         .card[data-type="important"] { border-left-color: var(--warning); }
         .card[data-type="hotel"] { border-left-color: #8e44ad; }
         .card[data-type="normal"] { border-left-color: #95a5a6; }
         .card[data-type="ticket"] { border-left-color: #27ae60; }
+        .card[data-type="land"] { border-left-color: var(--disney-land); }
+        .card[data-type="sea"] { border-left-color: var(--disney-sea); }
         .jr-active .card[data-type="transport"] { border-left-color: var(--jr-gold); }
-
-        .card-header {
-            padding: 15px;
-            position: relative;
-            cursor: pointer;
-            background: #fff;
-        }
-        
-        .time-badge {
-            display: inline-block;
-            font-family: monospace;
-            font-weight: 700;
-            background: #eceff1;
-            color: var(--primary);
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-size: 14px;
-            margin-bottom: 6px;
-        }
+        .card-header { padding: 15px; position: relative; cursor: pointer; background: #fff; }
+        .time-badge { display: inline-block; font-family: monospace; font-weight: 700; background: #eceff1; color: var(--primary); padding: 3px 6px; border-radius: 4px; font-size: 14px; margin-bottom: 6px; }
         .card[data-type="important"] .time-badge { background: #ffebee; color: #c62828; }
         .card[data-type="ticket"] .time-badge { background: #e8f8f5; color: #27ae60; }
-
-        .card-title {
-            font-size: 17px;
-            font-weight: 700;
-            margin: 0;
-            line-height: 1.4;
-            color: #222;
-        }
-        .card-subtitle {
-            font-size: 14px;
-            color: #666;
-            margin-top: 4px;
-        }
-        
-        .toggle-icon {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            color: #999;
-            transition: transform 0.3s;
-        }
+        .card[data-type="land"] .time-badge { background: #fce4ec; color: #c2185b; }
+        .card[data-type="sea"] .time-badge { background: #e8eaf6; color: #303f9f; }
+        .card-title { font-size: 17px; font-weight: 700; margin: 0; line-height: 1.4; color: #222; }
+        .card-subtitle { font-size: 14px; color: #666; margin-top: 4px; }
+        .toggle-icon { position: absolute; right: 15px; top: 15px; color: #999; transition: transform 0.3s; }
         .card.expanded .toggle-icon { transform: rotate(180deg); }
-
-        /* --- 詳細內容 --- */
-        .card-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            background: #fafafa;
-            border-top: 1px solid transparent;
-        }
-        .card.expanded .card-body {
-            max-height: 3500px;
-            border-top-color: #eee;
-        }
-        
-        .body-content {
-            padding: 15px;
-        }
-
-        .section-header {
-            font-size: 12px;
-            font-weight: bold;
-            color: #888;
-            margin-top: 12px;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
+        .card-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1); background: #fafafa; border-top: 1px solid transparent; }
+        .card.expanded .card-body { max-height: 5000px; border-top-color: #eee; }
+        .body-content { padding: 15px; }
+        .section-header { font-size: 12px; font-weight: bold; color: #888; margin-top: 12px; margin-bottom: 6px; text-transform: uppercase; }
         .section-header:first-child { margin-top: 0; }
-
-        .detail-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .detail-item {
-            position: relative;
-            padding-left: 15px;
-            margin-bottom: 8px;
-            font-size: 15px;
-            color: #333;
-            line-height: 1.6;
-        }
-        .detail-item::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-weight: bold;
-        }
+        .detail-list { list-style: none; padding: 0; margin: 0; }
+        .detail-item { position: relative; padding-left: 15px; margin-bottom: 8px; font-size: 15px; color: #333; line-height: 1.6; }
+        .detail-item::before { content: '•'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
         .detail-item strong { color: #000; font-weight: 700; background: #fffbe6; padding: 0 2px; }
         .detail-item.alert { color: #c0392b; font-weight: 600; }
         .detail-item.alert::before { content: '!'; color: #c0392b; }
-        
-        /* 預約號碼樣式 */
-        .res-code {
-            font-family: monospace;
-            background: #eee;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-weight: bold;
-            color: #333;
-            border: 1px solid #ccc;
-        }
+        .res-code { font-family: monospace; background: #eee; padding: 2px 5px; border-radius: 4px; font-weight: bold; color: #333; border: 1px solid #ccc; }
         .status-ok { color: var(--success); font-weight: bold; }
         .status-no { color: var(--warning); font-weight: bold; }
-
-        /* --- 路線圖 --- */
-        .route-visual {
-            margin-left: 6px;
-            border-left: 2px solid #ccc;
-            padding-left: 20px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-        .route-point {
-            position: relative;
-            margin-bottom: 15px;
-        }
+        .route-visual { margin-left: 6px; border-left: 2px solid #ccc; padding-left: 20px; padding-top: 5px; padding-bottom: 5px; margin-bottom: 10px; }
+        .route-point { position: relative; margin-bottom: 15px; }
         .route-point:last-child { margin-bottom: 0; }
-        
-        .point-dot {
-            position: absolute;
-            left: -26px;
-            top: 5px;
-            width: 10px;
-            height: 10px;
-            background: #fff;
-            border: 2px solid #999;
-            border-radius: 50%;
-        }
-        .point-start .point-dot, .point-end .point-dot {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-        .jr-active .point-start .point-dot, .jr-active .point-end .point-dot {
-            background: var(--jr-gold);
-            border-color: var(--jr-gold);
-        }
-
+        .point-dot { position: absolute; left: -26px; top: 5px; width: 10px; height: 10px; background: #fff; border: 2px solid #999; border-radius: 50%; }
+        .point-start .point-dot, .point-end .point-dot { background: var(--accent); border-color: var(--accent); }
+        .jr-active .point-start .point-dot, .jr-active .point-end .point-dot { background: var(--jr-gold); border-color: var(--jr-gold); }
         .point-name { font-weight: bold; font-size: 15px; color: #222; }
         .point-time { font-size: 12px; color: #666; margin-top: 2px; font-family: monospace; }
         .point-arrow { font-size: 12px; color: var(--accent); margin: 4px 0 4px 2px; font-weight: bold;}
-
-        /* --- Footer --- */
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            background: #fff;
-            border-top: 1px solid #ddd;
-            padding: 12px 16px 25px 16px;
-            z-index: 999;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 15px;
-            align-items: center;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            box-sizing: border-box;
-        }
-
-        .nav-btn {
-            background: #fff;
-            border: 1px solid #ddd;
-            padding: 12px 0;
-            width: 100%;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #555;
-            cursor: pointer;
-            text-align: center;
-        }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; background: #fff; border-top: 1px solid #ddd; padding: 12px 16px 25px 16px; z-index: 999; display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); box-sizing: border-box; }
+        .nav-btn { background: #fff; border: 1px solid #ddd; padding: 12px 0; width: 100%; border-radius: 6px; font-size: 14px; font-weight: 600; color: #555; cursor: pointer; text-align: center; }
         .nav-btn:active { background: #f9f9f9; }
-        .nav-btn.primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-        }
+        .nav-btn.primary { background: var(--primary); color: white; border: none; }
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        .day-indicator {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--primary);
-            text-align: center;
-            white-space: nowrap;
-        }
-
+        .day-indicator { font-size: 16px; font-weight: 800; color: var(--primary); text-align: center; white-space: nowrap; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
-
     <div class="header">
         <div class="header-top">
             <h1>2026 東京極致之旅</h1>
-            <div class="sunset-tag">
-                <span>🌇</span>
-                <span id="sunset-display">--:--</span>
-            </div>
+            <div class="sunset-tag"><span>🌇</span><span id="sunset-display">--:--</span></div>
         </div>
-        <div class="header-sub">
-            <span id="date-display">--/--</span>
-            <span id="day-title-display">行程</span>
-        </div>
+        <div class="header-sub"><span id="date-display">--/--</span><span id="day-title-display">行程</span></div>
     </div>
-
-    <div class="jr-banner" id="jr-banner">
-        🎫 JR 廣域周遊券啟用日 (請使用實體票)
-    </div>
-
-    <div class="content-area" id="content-container">
-        </div>
-
+    <div class="jr-banner" id="jr-banner">🎫 JR 廣域周遊券啟用日 (請使用實體票)</div>
+    <div class="content-area" id="content-container"></div>
     <div class="footer">
         <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">上一天</button>
         <div class="day-indicator" id="day-indicator">首頁</div>
         <button class="nav-btn primary" id="next-btn" onclick="changeDay(1)">下一天</button>
     </div>
-
     <script>
-        // --- 完整行程資料 ---
         const tripData = [
             {
-                day: "首頁",
-                date: "行前確認",
-                title: "出發前資訊彙整",
-                sunset: "N/A",
-                jrActive: false,
+                day: "首頁", date: "行前確認", title: "出發前資訊彙整", sunset: "N/A", jrActive: false,
                 cards: [
-                    {
-                        time: "提醒",
-                        title: "🔥 唯一重大任務",
-                        subtitle: "搶訂 SHIBUYA SKY",
-                        type: "important",
-                        details: [
-                            { text: "時間：台灣時間 <strong>2025/12/31 (跨年夜) 23:00</strong> 開搶。" },
-                            { text: "目標：訂購 Day 7 (1/15) 下午 16:00 場次。" }
-                        ]
-                    },
-                    {
-                        time: "列表",
-                        title: "🚄 新幹線劃位狀態清單",
-                        subtitle: "已預約 & 待預約車票",
-                        type: "ticket",
-                        details: [
-                            { text: "<span class='status-ok'>✅ 已預約</span> Day 4 東京 → 輕井澤<br>預約號：<span class='res-code'>E22134</span><br>10:33 出發 - 11:36 抵達" },
-                            { text: "<span class='status-ok'>✅ 已預約</span> Day 5 輕井澤 → 高崎<br>預約號：<span class='res-code'>E54876</span><br>12:00 出發 - 12:19 抵達" },
-                            { text: "<span class='status-ok'>✅ 已預約</span> Day 5 高崎 → 上毛高原<br>預約號：<span class='res-code'>E59744</span><br>12:28 出發 - 12:43 抵達<br>⚠️ <strong>高崎站轉乘僅 9 分鐘</strong>" },
-                            { text: "<span class='status-no'>❌ 尚未預約</span> Day 6 上毛高原 → 上野<br>目標班次：Tanigawa 408號<br>10:46 出發 - 11:42 抵達" }
-                        ]
-                    },
-                    {
-                        time: "航班",
-                        title: "✈️ 航班資訊",
-                        subtitle: "樂桃 & 酷航",
-                        type: "transport",
-                        details: [
-                            { text: "去程：MM626 (TPE -> NRT T1)<br>14:55 抵達成田" },
-                            { text: "回程：TR899 (NRT T1 -> TPE)<br>11:55 起飛 (09:55 前櫃台報到)" }
-                        ],
-                        route: []
-                    },
-                    {
-                        time: "住宿",
-                        title: "🏨 住宿總覽",
-                        subtitle: "10天9夜",
-                        type: "hotel",
-                        details: [
-                            { text: "Day 1-3：東京灣喜來登 (迪士尼)" },
-                            { text: "Day 4：輕井澤王子大飯店 西館" },
-                            { text: "Day 5：寶川溫泉 汪泉閣 (秘湯)" },
-                            { text: "Day 6-9：三井花園飯店上野" }
-                        ]
-                    },
-                    {
-                        time: "票券",
-                        title: "🎫 交通票券與活動",
-                        subtitle: "已確認項目",
-                        type: "normal",
-                        details: [
-                            { text: "JR 東京廣域周遊券：憑證已購。<br>效期：Day 4 (1/12) - Day 6 (1/14)" },
-                            { text: "活動：迪士尼樂園 (Day 2)、海洋 (Day 3)、溫泉接駁 (Day 5,6)、淺草和服 (Day 8)" }
-                        ]
-                    }
+                    { time: "提醒", title: "🔥 唯一重大任務", subtitle: "搶訂 SHIBUYA SKY", type: "important", details: [{ text: "時間：台灣時間 <strong>2025/12/31 (跨年夜) 23:00</strong> 開搶。" }, { text: "目標：訂購 Day 7 (1/15) 下午 16:00 場次。" }] },
+                    { time: "列表", title: "🚄 新幹線劃位狀態清單", subtitle: "已預約 & 待預約車票", type: "ticket", details: [{ text: "<span class='status-ok'>✅ 已預約</span> Day 4 東京 → 輕井澤<br>預約號：<span class='res-code'>E22134</span><br>10:33 出發 - 11:36 抵達" }, { text: "<span class='status-ok'>✅ 已預約</span> Day 5 輕井澤 → 高崎<br>預約號：<span class='res-code'>E54876</span><br>12:00 出發 - 12:19 抵達" }, { text: "<span class='status-ok'>✅ 已預約</span> Day 5 高崎 → 上毛高原<br>預約號：<span class='res-code'>E59744</span><br>12:28 出發 - 12:43 抵達<br>⚠️ <strong>高崎站轉乘僅 9 分鐘</strong>" }, { text: "<span class='status-no'>❌ 尚未預約</span> Day 6 上毛高原 → 上野<br>目標班次：Tanigawa 408號<br>10:46 出發 - 11:42 抵達" }] },
+                    { time: "航班", title: "✈️ 航班資訊", subtitle: "樂桃 & 酷航", type: "transport", details: [{ text: "去程：MM626 (TPE -> NRT T1)<br>14:55 抵達成田" }, { text: "回程：TR899 (NRT T1 -> TPE)<br>11:55 起飛 (09:55 前櫃台報到)" }], route: [] },
+                    { time: "住宿", title: "🏨 住宿總覽", subtitle: "10天9夜", type: "hotel", details: [{ text: "Day 1-3：東京灣喜來登 (迪士尼)" }, { text: "Day 4：輕井澤王子大飯店 西館" }, { text: "Day 5：寶川溫泉 汪泉閣 (秘湯)" }, { text: "Day 6-9：三井花園飯店上野" }] }
                 ]
             },
             {
-                day: 1,
-                date: "2026/01/09 (五)",
-                title: "抵達與準備",
-                sunset: "16:48",
-                jrActive: false,
+                day: 1, date: "2026/01/09 (五)", title: "抵達與準備", sunset: "16:48", jrActive: false,
                 cards: [
-                    {
-                        time: "14:55",
-                        title: "班機抵達 (MM626)",
-                        subtitle: "成田機場 T1",
-                        type: "transport",
-                        details: [
-                            { text: "下機後重要提醒：開通 SIM 卡 / eSIM，確保手機可上網。" },
-                            { text: "準備西瓜卡 (Suica/PASMO)：若無實體卡，請用手機綁定數位卡或在機場機台購買。" },
-                            { text: "預計辦理入境手續約 60-90 分鐘。" }
-                        ],
-                        route: [
-                            { name: "樂桃 MM626", time: "14:55 抵達", type: "start" },
-                            { name: "成田機場 T1", time: "入境檢查", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "16:30",
-                        title: "【重要】領取 JR PASS & 票券",
-                        subtitle: "B1 JR 東日本旅行服務中心",
-                        type: "important",
-                        details: [
-                            { text: "地點：第一航廈 B1 樓層。" },
-                            { text: "動作 1：出示憑證與護照，領取實體 JR 東京廣域周遊券。" },
-                            { text: "動作 2：<strong>務必領取所有「新幹線指定席車票」</strong> (Day 4, 5, 6)。", alert: true },
-                            { text: "服務中心營業至 21:00。" }
-                        ]
-                    },
-                    {
-                        time: "17:30",
-                        title: "利木津巴士：前往飯店",
-                        subtitle: "直達東京灣喜來登",
-                        type: "transport",
-                        details: [
-                            { text: "購票：入境大廳「南翼」巴士櫃台。" },
-                            { text: "目的地：告知櫃台前往「Sheraton Grande Tokyo Bay」。" },
-                            { text: "車程：約 70-90 分鐘 (視交通狀況)。" }
-                        ],
-                        route: [
-                            { name: "成田 T1 (南翼)", time: "約 17:30 發車", type: "start" },
-                            { name: "東關東自動車道", time: "途經", type: "mid" },
-                            { name: "東京灣喜來登飯店", time: "約 19:30 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "20:00",
-                        title: "入住與晚餐",
-                        subtitle: "飯店內或商場",
-                        type: "hotel",
-                        details: [
-                            { text: "辦理入住手續。" },
-                            { text: "晚餐選擇：飯店內餐廳，或搭單軌電車去「伊克斯皮兒莉 (Ikspiari)」商場用餐。" }
-                        ]
-                    }
+                    { time: "14:55", title: "班機抵達 (MM626)", subtitle: "成田機場 T1", type: "transport", details: [{ text: "下機後重要提醒：開通 SIM 卡 / eSIM，確保手機可上網。" }, { text: "預計辦理入境手續約 60-90 分鐘。" }], route: [{ name: "樂桃 MM626", time: "14:55 抵達", type: "start" }, { name: "成田機場 T1", time: "入境檢查", type: "end" }] },
+                    { time: "16:00", title: "💳 購買西瓜卡 (Suica)", subtitle: "第一階段：機場購買", type: "ticket", details: [{ text: "地點：JR 車站機台或服務中心。" }, { text: "購買實體西瓜卡：<strong>一張 2,000 日圓</strong>。" }, { text: "內容：內含 500 押金 + 1,500 可用餘額。" }, { text: "用途：這 1,500 日幣足夠您 Day 1~3 在迪士尼搭單軌電車使用。" }] },
+                    { time: "16:30", title: "【重要】領取 JR PASS & 票券", subtitle: "B1 JR 東日本旅行服務中心", type: "important", details: [{ text: "地點：第一航廈 B1 樓層。" }, { text: "動作 1：出示憑證與護照，領取實體 JR 東京廣域周遊券。" }, { text: "動作 2：<strong>務必領取所有「新幹線指定席車票」</strong> (Day 4, 5, 6)。", alert: true }, { text: "服務中心營業至 21:00。" }] },
+                    { time: "17:30", title: "利木津巴士：前往飯店", subtitle: "直達東京灣喜來登", type: "transport", details: [{ text: "購票：入境大廳「南翼」巴士櫃台。" }, { text: "目的地：告知櫃台前往「Sheraton Grande Tokyo Bay」。" }, { text: "車程：約 70-90 分鐘 (視交通狀況)。" }], route: [{ name: "成田 T1 (南翼)", time: "約 17:30 發車", type: "start" }, { name: "東關東自動車道", time: "途經", type: "mid" }, { name: "東京灣喜來登飯店", time: "約 19:30 抵達", type: "end" }] },
+                    { time: "20:00", title: "入住與晚餐", subtitle: "飯店內或商場", type: "hotel", details: [{ text: "辦理入住手續。" }, { text: "晚餐選擇：飯店內餐廳，或搭單軌電車去「伊克斯皮兒莉 (Ikspiari)」商場用餐。" }] }
                 ]
             },
             {
-                day: 2,
-                date: "2026/01/10 (六)",
-                title: "迪士尼樂園",
-                sunset: "16:49",
-                jrActive: false,
+                day: 2, date: "2026/01/10 (六)", title: "迪士尼陸地攻防戰", sunset: "16:49", jrActive: false,
                 cards: [
-                    {
-                        time: "全天",
-                        title: "東京迪士尼樂園 (Land)",
-                        subtitle: "夢幻樂園 (已預約)",
-                        type: "normal",
-                        details: [
-                            { text: "交通方式：飯店門口搭乘「免費接駁巴士」至單軌海濱站。" },
-                            { text: "轉乘單軌電車至「東京迪士尼樂園站」。" },
-                            { text: "回程：循原路線返回飯店。" }
-                        ],
-                        route: [
-                            { name: "喜來登飯店", time: "接駁車", type: "start" },
-                            { name: "單軌海濱站", time: "轉乘", type: "mid" },
-                            { name: "迪士尼樂園站", time: "下車即達", type: "end" }
-                        ]
-                    }
-                ]
-            },
-
-            {
-                day: 3,
-                date: "2026/01/11 (日)",
-                title: "迪士尼海洋",
-                sunset: "16:50",
-                jrActive: false,
-                cards: [
-                    {
-                        time: "全天",
-                        title: "東京迪士尼海洋 (Sea)",
-                        subtitle: "海洋冒險 (已預約)",
-                        type: "normal",
-                        details: [
-                            { text: "交通方式：飯店門口搭乘「免費接駁巴士」至單軌海濱站。" },
-                            { text: "轉乘單軌電車至「東京迪士尼海洋站」。" }
-                        ],
-                        route: [
-                            { name: "喜來登飯店", time: "接駁車", type: "start" },
-                            { name: "單軌海濱站", time: "轉乘", type: "mid" },
-                            { name: "迪士尼海洋站", time: "下車即達", type: "end" }
-                        ]
-                    }
+                    { time: "07:00", title: "⚔️ 早晨：分秒必爭", subtitle: "開園前排隊", type: "land", details: [{ text: "07:00 從喜來登出發 (搭接駁車轉單軌)。" }, { text: "目標：在開園前 1 小時抵達排隊。" }, { text: "08:30 入園 (這1分鐘定生死)：通過閘門聽到「嗶」聲後，立刻操作 App。" }] },
+                    { time: "08:30", title: "📲 黃金 1 分鐘操作順序", subtitle: "請勿猶豫", type: "important", details: [{ text: "<strong>1. 搶 DPA (付費)：</strong>先搶「美女與野獸」。(這通常開園30分鐘內賣光)。行有餘力再買「杯麵 Baymax」。" }, { text: "<strong>2. 抽 PP (免費)：</strong>立刻抽「怪獸電力公司」或「巨雷山」。" }, { text: "<strong>3. 抽 Entry Request：</strong>抽選大秀「米奇俱樂部動感節奏」。" }, { text: "注意：太空山與巴斯光年已關閉改建。" }] },
+                    { time: "上午", title: "上午行程 & 午餐", subtitle: "經典設施", type: "land", details: [{ text: "09:00 - 10:30：排隊玩經典設施 (如小熊維尼獵蜜記、幽靈公館)。" }, { text: "11:00 提早午餐 (避開人潮)。" }, { text: "<strong>午餐推薦 (強烈建議 Mobile Order)：</strong>" }, { text: "1. 紅心女王宴會大廳 (牛排)。" }, { text: "2. 拉福兒小館 (海鮮焗飯)。" }] },
+                    { time: "下午", title: "遊行 & DPA 設施", subtitle: "眾彩交融", type: "land", details: [{ text: "13:00 觀賞日間遊行「迪士尼眾彩交融」(提早45分佔位)。" }, { text: "14:30 使用早上的 DPA 和 PP 玩設施。" }, { text: "抽第二張 PP：星際旅行。" }] },
+                    { time: "晚餐", title: "晚餐推薦", subtitle: "園內或 Ikspiari", type: "land", details: [{ text: "選擇一 (園內)：加斯頓酒館 (帶骨香腸、吉拿棒)。" }, { text: "選擇二 (Ikspiari)：Kua'Aina 漢堡 或 燒肉 Toraji。" }, { text: "建議：週六人多，盡量留在園內解決。" }] },
+                    { time: "晚上", title: "夜間遊行 & 煙火", subtitle: "電子大遊行", type: "land", details: [{ text: "19:15 夜間遊行「東京迪士尼樂園電子大遊行」。" }, { text: "20:30 煙火「迪士尼炫彩夜空」。" }] }
                 ]
             },
             {
-                day: 4,
-                date: "2026/01/12 (一)",
-                title: "前往輕井澤",
-                sunset: "16:51",
-                jrActive: true,
+                day: 3, date: "2026/01/11 (日)", title: "迪士尼海洋攻防戰", sunset: "16:50", jrActive: false,
                 cards: [
-                    {
-                        time: "08:50",
-                        title: "移動：前往東京車站",
-                        subtitle: "轉乘注意",
-                        type: "transport",
-                        details: [
-                            { text: "08:50 辦理退房，從飯店出發。" },
-                            { text: "09:20 抵達 JR 舞濱站搭車。" },
-                            { text: "搭乘 JR 京葉線 (快速或各停) 前往東京車站。" },
-                            { text: "⚠️ <strong>關鍵轉乘</strong>：京葉線月台在地下深處，走到 1F 新幹線月台需 20 分鐘，請務必預留時間！", alert: true },
-                            { text: "10:00 前抵達 1F 新幹線區域，購買鐵路便當。" }
-                        ],
-                        route: [
-                            { name: "喜來登飯店", time: "08:50 出發", type: "start" },
-                            { name: "JR 舞濱站", time: "09:20 進站", type: "mid" },
-                            { name: "東京站 (地下月台)", time: "09:40 抵達", type: "mid" },
-                            { name: "東京站 (新幹線)", time: "10:00 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "10:33",
-                        title: "新幹線：前往輕井澤",
-                        subtitle: "Hakutaka 559 號",
-                        type: "ticket",
-                        details: [
-                            { text: "狀態：<span class='status-ok'>✅ 已預約</span>" },
-                            { text: "預約號碼：<span class='res-code'>E22134</span>" },
-                            { text: "座位：6號車 14C, 14D。" },
-                            { text: "憑 JR PASS 與指定席券通過閘門。" }
-                        ],
-                        route: [
-                            { name: "東京車站", time: "10:33 發車", type: "start" },
-                            { name: "上野 / 大宮 / 高崎", time: "途經", type: "mid" },
-                            { name: "輕井澤站", time: "11:36 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "11:45",
-                        title: "輕井澤：行李與景點",
-                        subtitle: "王子西館 & 星野區",
-                        type: "normal",
-                        details: [
-                            { text: "抵達後往南口出站，搭接駁車/計程車去「輕井澤王子大飯店西館」寄放行李。" },
-                            { text: "<strong>13:30 雲場池</strong>：從西館搭計程車前往 (約10分鐘)，欣賞雪妝景色。" },
-                            { text: "<strong>15:00 星野區</strong>：從雲場池搭計程車前往。參觀石之教堂、高原教堂 (17:00關門，請把握時間)。" },
-                            { text: "<strong>16:30 晚餐</strong>：步行至榆樹街小鎮。推薦：川上庵蕎麥麵 或 Sawamura。" },
-                            { text: "<strong>18:30 體驗</strong>：KERA-IKE 滑冰場 (欣賞點燈)。" },
-                            { text: "晚上搭計程車返回飯店。" }
-                        ]
-                    }
+                    { time: "06:40", title: "⚔️ 決戰：夢幻泉鄉", subtitle: "比昨天更艱難", type: "sea", details: [{ text: "<strong>目標：進入 2024 新區域「夢幻泉鄉」</strong>。" }, { text: "06:40 從喜來登出發。" }, { text: "08:15 入園後動作 (絕對關鍵)：必須取得 DPA 或 SP 才能進入該區。" }] },
+                    { time: "08:15", title: "📲 黃金 1 分鐘操作順序", subtitle: "夢幻泉鄉搶票", type: "important", details: [{ text: "<strong>1. 搶 DPA (付費)：</strong>首選「冰雪奇緣」。(開園15分鐘內秒殺)。" }, { text: "<strong>2. 搶 SP (免費)：</strong>買完 DPA 立刻切換！抽「樂佩公主」或「彼得潘」。" }, { text: "<strong>3. 只要搶到其中一個，就能進入夢幻泉鄉！</strong>" }, { text: "備案：若夢幻泉鄉全滅，立刻買「翱翔：夢幻奇航」DPA。" }] },
+                    { time: "上午", title: "上午行程", subtitle: "達菲與港灣", type: "sea", details: [{ text: "抽 PP (免費)：印第安納瓊斯 或 忿怒雙神。" }, { text: "11:30 觀賞港灣表演。" }] },
+                    { time: "午餐", title: "午餐推薦", subtitle: "達菲餐廳", type: "sea", details: [{ text: "必吃：<strong>達菲熊餐廳 (Cape Cod Cook-Off)</strong>。邊吃漢堡邊看表演 (需預約)。" }, { text: "備選：水平線海灣餐廳 (排餐)。" }, { text: "小吃：辣味雞腿、馬鈴薯吉拿棒。" }] },
+                    { time: "下午", title: "夢幻泉鄉 / 玩具總動員", subtitle: "新區域探索", type: "sea", details: [{ text: "14:00 - 16:00：若成功預約，在「夢幻泉鄉」內遊玩 (冰雪奇緣/魔髮奇緣/彼得潘)。" }, { text: "若無，去排「玩具總動員瘋狂遊戲屋」。" }] },
+                    { time: "晚餐", title: "晚餐推薦", subtitle: "飯店附近", type: "sea", details: [{ text: "建議回飯店附近吃 (玩累了)。" }, { text: "喜來登：Grand Café 自助餐。" }, { text: "Ikspiari：筑地玉壽司 或 一風堂拉麵。" }] },
+                    { time: "晚上", title: "夜間大秀 & 煙火", subtitle: "Believe!", type: "sea", details: [{ text: "19:15 必看大秀「Believe! Sea of Dreams」。(建議提早1.5小時卡位，很冷注意保暖)。" }, { text: "20:30 煙火。" }] }
                 ]
             },
             {
-                day: 5,
-                date: "2026/01/13 (二)",
-                title: "秘湯寶川溫泉",
-                sunset: "16:52",
-                jrActive: true,
+                day: 4, date: "2026/01/12 (一)", title: "前往輕井澤", sunset: "16:51", jrActive: true,
                 cards: [
-                    {
-                        time: "11:30",
-                        title: "午餐任務：山口釜飯",
-                        subtitle: "輕井澤車站",
-                        type: "normal",
-                        details: [
-                            { text: "在輕井澤車站購買知名的「峠の釜めし (山口釜飯)」便當。" }
-                        ]
-                    },
-                    {
-                        time: "12:00",
-                        title: "新幹線 1：往高崎",
-                        subtitle: "Asama 614 號",
-                        type: "ticket",
-                        details: [
-                            { text: "狀態：<span class='status-ok'>✅ 已預約</span>" },
-                            { text: "預約號碼：<span class='res-code'>E54876</span>" },
-                            { text: "車程僅 19 分鐘，請準備好下車。" }
-                        ],
-                        route: [
-                            { name: "輕井澤站", time: "12:00 發車", type: "start" },
-                            { name: "安中榛名", time: "途經", type: "mid" },
-                            { name: "高崎站", time: "12:19 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "12:19",
-                        title: "⚡ 高崎站關鍵轉乘",
-                        subtitle: "9分鐘極速轉乘",
-                        type: "important",
-                        details: [
-                            { text: "⚠️ <strong>全程不出站！不要走出驗票口！</strong>", alert: true },
-                            { text: "步驟 1：下車 (3F) 立刻找手扶梯下樓。" },
-                            { text: "步驟 2：到 2F 轉乘大廳，確認往「新潟」方向月台 (通常 11/12 號)。" },
-                            { text: "步驟 3：再搭手扶梯上樓候車。" }
-                        ]
-                    },
-                    {
-                        time: "12:28",
-                        title: "新幹線 2：往上毛高原",
-                        subtitle: "Toki 319 號",
-                        type: "ticket",
-                        details: [
-                            { text: "狀態：<span class='status-ok'>✅ 已預約</span>" },
-                            { text: "預約號碼：<span class='res-code'>E59744</span>" },
-                            { text: "直達，中間無停靠。" },
-                            { text: "抵達後往<strong>「東口 (EAST EXIT)」</strong>集合。" }
-                        ],
-                        route: [
-                            { name: "高崎站", time: "12:28 發車", type: "start" },
-                            { name: "上毛高原站", time: "12:43 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "13:00",
-                        title: "接駁：前往寶川溫泉",
-                        subtitle: "汪泉閣專車",
-                        type: "transport",
-                        details: [
-                            { text: "在東口搭乘汪泉閣免費接駁巴士。" },
-                            { text: "車程約 45 分鐘。" },
-                            { text: "13:45 抵達並辦理入住。" },
-                            { text: "⚠️ <strong>手機鎖進房間保險箱 (嚴禁帶手機下水)</strong>。", alert: true }
-                        ],
-                        route: [
-                            { name: "上毛高原站", time: "13:00 發車", type: "start" },
-                            { name: "寶川溫泉 汪泉閣", time: "13:45 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "14:30",
-                        title: "♨️ 溫泉與晚餐行程",
-                        subtitle: "一泊二食",
-                        type: "normal",
-                        details: [
-                            { text: "14:30 - 16:00 露天混浴：先攻「子寶之湯」(最大/雪景)，再泡「般若之湯」(淺灘)。" },
-                            { text: "18:00 晚餐：享用招牌「熊肉湯」山珍料理。" },
-                            { text: "20:30 晚間泡湯：前往「摩訶之湯」欣賞夜間點燈。" }
-                        ]
-                    }
+                    { time: "08:50", title: "移動：前往東京車站", subtitle: "轉乘注意", type: "transport", details: [{ text: "08:50 辦理退房，從飯店出發。" }, { text: "09:20 抵達 JR 舞濱站搭車。" }, { text: "搭乘 JR 京葉線 (快速或各停) 前往東京車站。" }, { text: "⚠️ <strong>關鍵轉乘</strong>：京葉線月台在地下深處，走到 1F 新幹線月台需 20 分鐘，請務必預留時間！", alert: true }, { text: "10:00 前抵達 1F 新幹線區域，購買鐵路便當。" }], route: [{ name: "喜來登飯店", time: "08:50 出發", type: "start" }, { name: "JR 舞濱站", time: "09:20 進站", type: "mid" }, { name: "東京站 (地下月台)", time: "09:40 抵達", type: "mid" }, { name: "東京站 (新幹線)", time: "10:00 抵達", type: "end" }] },
+                    { time: "10:33", title: "新幹線：前往輕井澤", subtitle: "Hakutaka 559 號", type: "ticket", details: [{ text: "狀態：<span class='status-ok'>✅ 已預約</span>" }, { text: "預約號碼：<span class='res-code'>E22134</span>" }, { text: "座位：6號車 14C, 14D。" }, { text: "憑 JR PASS 與指定席券通過閘門。" }], route: [{ name: "東京車站", time: "10:33 發車", type: "start" }, { name: "上野 / 大宮 / 高崎", time: "途經", type: "mid" }, { name: "輕井澤站", time: "11:36 抵達", type: "end" }] },
+                    { time: "11:45", title: "輕井澤：行李與景點", subtitle: "王子西館 & 星野區", type: "normal", details: [{ text: "抵達後往南口出站，搭接駁車/計程車去「輕井澤王子大飯店西館」寄放行李。" }, { text: "<strong>13:30 雲場池</strong>：從西館搭計程車前往 (約10分鐘)，欣賞雪妝景色。" }, { text: "<strong>15:00 星野區</strong>：從雲場池搭計程車前往。參觀石之教堂、高原教堂 (17:00關門，請把握時間)。" }, { text: "<strong>16:30 晚餐</strong>：步行至榆樹街小鎮。推薦：川上庵蕎麥麵 或 Sawamura。" }, { text: "<strong>18:30 體驗</strong>：KERA-IKE 滑冰場 (欣賞點燈)。" }, { text: "晚上搭計程車返回飯店。" }] }
                 ]
             },
             {
-                day: 6,
-                date: "2026/01/14 (三)",
-                title: "返回上野",
-                sunset: "16:53",
-                jrActive: true,
+                day: 5, date: "2026/01/13 (二)", title: "秘湯寶川溫泉", sunset: "16:52", jrActive: true,
                 cards: [
-                    {
-                        time: "09:15",
-                        title: "接駁：返回車站",
-                        subtitle: "汪泉閣專車",
-                        type: "transport",
-                        details: [
-                            { text: "09:00 退房，在大廳等候。" },
-                            { text: "09:15 發車返回上毛高原站。" },
-                            { text: "抵達車站後注意保暖，可在站內休息。" }
-                        ],
-                        route: [
-                            { name: "寶川溫泉", time: "09:15 發車", type: "start" },
-                            { name: "上毛高原站", time: "10:20 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "10:46",
-                        title: "新幹線：回上野",
-                        subtitle: "Tanigawa 408 號",
-                        type: "ticket",
-                        details: [
-                            { text: "狀態：<span class='status-no'>❌ 尚未預約 (請儘快劃位)</span>", alert: true },
-                            { text: "目標班次：Tanigawa (たにがわ) 408 號。" },
-                            { text: "11:42 抵達上野站。" },
-                            { text: "下車後往「中央驗票口」走，從「淺草口」或「中央口」出站。" },
-                            { text: "步行 3 分鐘至三井花園飯店寄放行李。" }
-                        ],
-                        route: [
-                            { name: "上毛高原", time: "10:46 發車", type: "start" },
-                            { name: "高崎/本庄/熊谷/大宮", time: "途經", type: "mid" },
-                            { name: "上野站", time: "11:42 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "12:15",
-                        title: "上野美食與散策",
-                        subtitle: "御徒町 & 阿美橫丁",
-                        type: "normal",
-                        details: [
-                            { text: "午餐：步行前往御徒町「牛かつ あおな (炸牛排)」。" },
-                            { text: "13:30 散步前往上野公園。" },
-                            { text: "14:00 景點：上野東照宮「冬牡丹苑」。" },
-                            { text: "15:30 點心：阿美橫丁「肉的大山」(炸肉餅/可樂餅)。" },
-                            { text: "17:00 傍晚點心：阿美橫丁「湊屋」(海鮮丼)。" },
-                            { text: "18:00 回飯店辦理入住。" }
-                        ]
-                    }
+                    { time: "11:30", title: "午餐任務：山口釜飯", subtitle: "輕井澤車站", type: "normal", details: [{ text: "在輕井澤車站購買知名的「峠の釜めし (山口釜飯)」便當。" }] },
+                    { time: "12:00", title: "新幹線 1：往高崎", subtitle: "Asama 614 號", type: "ticket", details: [{ text: "狀態：<span class='status-ok'>✅ 已預約</span>" }, { text: "預約號碼：<span class='res-code'>E54876</span>" }, { text: "車程僅 19 分鐘，請準備好下車。" }], route: [{ name: "輕井澤站", time: "12:00 發車", type: "start" }, { name: "安中榛名", time: "途經", type: "mid" }, { name: "高崎站", time: "12:19 抵達", type: "end" }] },
+                    { time: "12:19", title: "⚡ 高崎站關鍵轉乘", subtitle: "9分鐘極速轉乘", type: "important", details: [{ text: "⚠️ <strong>全程不出站！不要走出驗票口！</strong>", alert: true }, { text: "步驟 1：下車 (3F) 立刻找手扶梯下樓。" }, { text: "步驟 2：到 2F 轉乘大廳，確認往「新潟」方向月台 (通常 11/12 號)。" }, { text: "步驟 3：再搭手扶梯上樓候車。" }] },
+                    { time: "12:28", title: "新幹線 2：往上毛高原", subtitle: "Toki 319 號", type: "ticket", details: [{ text: "狀態：<span class='status-ok'>✅ 已預約</span>" }, { text: "預約號碼：<span class='res-code'>E59744</span>" }, { text: "直達，中間無停靠。" }, { text: "抵達後往<strong>「東口 (EAST EXIT)」</strong>集合。" }], route: [{ name: "高崎站", time: "12:28 發車", type: "start" }, { name: "上毛高原站", time: "12:43 抵達", type: "end" }] },
+                    { time: "13:00", title: "接駁：前往寶川溫泉", subtitle: "汪泉閣專車", type: "transport", details: [{ text: "在東口搭乘汪泉閣免費接駁巴士。" }, { text: "車程約 45 分鐘。" }, { text: "13:45 抵達並辦理入住。" }, { text: "⚠️ <strong>手機鎖進房間保險箱 (嚴禁帶手機下水)</strong>。", alert: true }], route: [{ name: "上毛高原站", time: "13:00 發車", type: "start" }, { name: "寶川溫泉 汪泉閣", time: "13:45 抵達", type: "end" }] },
+                    { time: "14:30", title: "♨️ 溫泉與晚餐行程", subtitle: "一泊二食", type: "normal", details: [{ text: "14:30 - 16:00 露天混浴：先攻「子寶之湯」(最大/雪景)，再泡「般若之湯」(淺灘)。" }, { text: "18:00 晚餐：享用招牌「熊肉湯」山珍料理。" }, { text: "20:30 晚間泡湯：前往「摩訶之湯」欣賞夜間點燈。" }] }
                 ]
             },
             {
-                day: 7,
-                date: "2026/01/15 (四)",
-                title: "都會高空絕景",
-                sunset: "16:54",
-                jrActive: false,
+                day: 6, date: "2026/01/14 (三)", title: "返回上野", sunset: "16:53", jrActive: true,
                 cards: [
-                    {
-                        time: "提醒",
-                        title: "🔥 購票任務",
-                        subtitle: "Skyliner & 門票",
-                        type: "important",
-                        details: [
-                            { text: "今日出發前，先走到隔壁「京成上野站」。" },
-                            { text: "⚠️ <strong>買好 Day 10 (週日) 去機場的 Skyliner 車票！</strong>", alert: true },
-                            { text: "確認已持有 SHIBUYA SKY 電子門票。" }
-                        ]
-                    },
-                    {
-                        time: "09:00",
-                        title: "移動：前往原宿",
-                        subtitle: "JR 山手線",
-                        type: "transport",
-                        details: [
-                            { text: "搭乘往池袋/新宿方向列車。" },
-                            { text: "原宿站下車，從「表參道口」或「西口」出站。" }
-                        ],
-                        route: [
-                            { name: "上野站", time: "09:00 出發", type: "start" },
-                            { name: "原宿站", time: "09:30 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "09:30",
-                        title: "明治神宮 & 表參道",
-                        subtitle: "逛街與午餐",
-                        type: "normal",
-                        details: [
-                            { text: "參觀明治神宮。" },
-                            { text: "午餐備選 1：まい泉 青山本店 (炸豬排)。" },
-                            { text: "午餐備選 2：Luke's Lobster 表參道店 (龍蝦堡)。" },
-                            { text: "午餐備選 3：Aoyama Flower Market Tea House (花店餐廳)。" }
-                        ]
-                    },
-                    {
-                        time: "13:30",
-                        title: "移動：前往澀谷",
-                        subtitle: "步行或地鐵",
-                        type: "transport",
-                        details: [
-                            { text: "散步約 20 分鐘，或搭銀座線 2 分鐘。" }
-                        ],
-                        route: [
-                            { name: "表參道", time: "13:30 出發", type: "start" },
-                            { name: "澀谷", time: "14:00 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "16:00",
-                        title: "SHIBUYA SKY",
-                        subtitle: "高空夕陽",
-                        type: "important",
-                        details: [
-                            { text: "地點：Scramble Square 大樓。" },
-                            { text: "16:00 入場，停留至 17:30 天黑點燈。" },
-                            { text: "晚餐備選 (澀谷)：一蘭拉麵、鳥貴族。" },
-                            { text: "晚餐備選 (上野)：根岸 (ねぎし) 牛舌。" },
-                            { text: "回程：搭 JR 山手線返回上野。" }
-                        ]
-                    }
+                    { time: "09:15", title: "接駁：返回車站", subtitle: "汪泉閣專車", type: "transport", details: [{ text: "09:00 退房，在大廳等候。" }, { text: "09:15 發車返回上毛高原站。" }, { text: "抵達車站後注意保暖，可在站內休息。" }], route: [{ name: "寶川溫泉", time: "09:15 發車", type: "start" }, { name: "上毛高原站", time: "10:20 抵達", type: "end" }] },
+                    { time: "10:46", title: "新幹線：回上野", subtitle: "Tanigawa 408 號", type: "ticket", details: [{ text: "狀態：<span class='status-no'>❌ 尚未預約 (請儘快劃位)</span>", alert: true }, { text: "目標班次：Tanigawa (たにがわ) 408 號。" }, { text: "11:42 抵達上野站。" }, { text: "下車後往「中央驗票口」走，從「淺草口」或「中央口」出站。" }, { text: "步行 3 分鐘至三井花園飯店寄放行李。" }], route: [{ name: "上毛高原", time: "10:46 發車", type: "start" }, { name: "高崎/本庄/熊谷/大宮", time: "途經", type: "mid" }, { name: "上野站", time: "11:42 抵達", type: "end" }] },
+                    { time: "12:15", title: "上野美食與散策", subtitle: "御徒町 & 阿美橫丁", type: "normal", details: [{ text: "午餐：步行前往御徒町「牛かつ あおな (炸牛排)」。" }, { text: "13:30 散步前往上野公園。" }, { text: "14:00 景點：上野東照宮「冬牡丹苑」。" }, { text: "15:30 點心：阿美橫丁「肉的大山」(炸肉餅/可樂餅)。" }, { text: "17:00 傍晚點心：阿美橫丁「湊屋」(海鮮丼)。" }, { text: "18:00 回飯店辦理入住。" }] },
+                    { time: "晚上", title: "💳 交通卡儲值提醒", subtitle: "第二階段", type: "important", details: [{ text: "明天開始要大量搭地鐵與 JR。" }, { text: "建議今晚或明早，<strong>再儲值 3,000 日圓</strong> 進西瓜卡。" }] }
                 ]
             },
             {
-                day: 8,
-                date: "2026/01/16 (五)",
-                title: "淺草和服體驗",
-                sunset: "16:55",
-                jrActive: false,
+                day: 7, date: "2026/01/15 (四)", title: "都會高空絕景", sunset: "16:54", jrActive: false,
                 cards: [
-                    {
-                        time: "09:45",
-                        title: "移動：前往淺草",
-                        subtitle: "銀座線",
-                        type: "transport",
-                        details: [
-                            { text: "從飯店步行至上野站。" }
-                        ],
-                        route: [
-                            { name: "上野站", time: "10:00 發車", type: "start" },
-                            { name: "淺草站", time: "10:06 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "10:30",
-                        title: "淺草和服體驗",
-                        subtitle: "梨花和服 (已預約)",
-                        type: "normal",
-                        details: [
-                            { text: "抵達梨花和服，挑選正絹振袖 (約 2 小時)。" },
-                            { text: "12:30 午餐：MISOJYU 飯糰 或 仲見世通炸肉餅。" },
-                            { text: "13:30 拍照：傳法院通、淺草寺、隅田川公園。" },
-                            { text: "15:30 休息：Fuglen Asakusa 咖啡 或 珈琲天國。" },
-                            { text: "16:30 前歸還和服。" }
-                        ]
-                    },
-                    {
-                        time: "17:30",
-                        title: "移動：回上野",
-                        subtitle: "銀座線",
-                        type: "transport",
-                        details: [
-                            { text: "回飯店放東西、休息。" }
-                        ],
-                        route: [
-                            { name: "淺草站", time: "17:30 出發", type: "start" },
-                            { name: "上野站", time: "17:36 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "18:30",
-                        title: "晚餐：燒肉饗宴",
-                        subtitle: "犒賞自己",
-                        type: "normal",
-                        details: [
-                            { text: "選擇 1：<strong>陽山道 上野本店</strong> (優雅老字號)。" },
-                            { text: "選擇 2：<strong>房家 上野六丁目店</strong> (熱鬧高CP值)。" }
-                        ]
-                    }
+                    { time: "提醒", title: "🔥 購票任務", subtitle: "Skyliner & 門票", type: "important", details: [{ text: "今日出發前，先走到隔壁「京成上野站」。" }, { text: "⚠️ <strong>買好 Day 10 (週日) 去機場的 Skyliner 車票！</strong>", alert: true }, { text: "確認已持有 SHIBUYA SKY 電子門票。" }] },
+                    { time: "09:00", title: "移動：前往原宿", subtitle: "JR 山手線", type: "transport", details: [{ text: "搭乘往池袋/新宿方向列車。" }, { text: "原宿站下車，從「表參道口」或「西口」出站。" }], route: [{ name: "上野站", time: "09:00 出發", type: "start" }, { name: "原宿站", time: "09:30 抵達", type: "end" }] },
+                    { time: "09:30", title: "明治神宮 & 表參道", subtitle: "逛街與午餐", type: "normal", details: [{ text: "參觀明治神宮。" }, { text: "午餐備選 1：まい泉 青山本店 (炸豬排)。" }, { text: "午餐備選 2：Luke's Lobster 表參道店 (龍蝦堡)。" }, { text: "午餐備選 3：Aoyama Flower Market Tea House (花店餐廳)。" }] },
+                    { time: "13:30", title: "移動：前往澀谷", subtitle: "步行或地鐵", type: "transport", details: [{ text: "散步約 20 分鐘，或搭銀座線 2 分鐘。" }], route: [{ name: "表參道", time: "13:30 出發", type: "start" }, { name: "澀谷", time: "14:00 抵達", type: "end" }] },
+                    { time: "16:00", title: "SHIBUYA SKY", subtitle: "高空夕陽", type: "important", details: [{ text: "地點：Scramble Square 大樓。" }, { text: "16:00 入場，停留至 17:30 天黑點燈。" }, { text: "晚餐備選 (澀谷)：一蘭拉麵、鳥貴族。" }, { text: "晚餐備選 (上野)：根岸 (ねぎし) 牛舌。" }, { text: "回程：搭 JR 山手線返回上野。" }] }
                 ]
             },
             {
-                day: 9,
-                date: "2026/01/17 (六)",
-                title: "築地美食與鐵塔",
-                sunset: "16:56",
-                jrActive: false,
+                day: 8, date: "2026/01/16 (五)", title: "淺草和服體驗", sunset: "16:55", jrActive: false,
                 cards: [
-                    {
-                        time: "09:00",
-                        title: "移動：前往築地場外市場",
-                        subtitle: "都營大江戶線",
-                        type: "transport",
-                        details: [
-                            { text: "出發：從飯店步行至「上野御徒町站」(Ueno-okachimachi)。" },
-                            { text: "搭乘：都營大江戶線 (往兩國・大門方向)。" },
-                            { text: "抵達：築地市場站 (E18)。從 A1 出口出站，左轉即達。" }
-                        ],
-                        route: [
-                            { name: "上野御徒町", time: "09:00 出發", type: "start" },
-                            { name: "新御徒町/藏前/兩國", time: "途經", type: "mid" },
-                            { name: "森下/清澄白河/門前仲町", time: "途經", type: "mid" },
-                            { name: "月島/勝どき", time: "途經", type: "mid" },
-                            { name: "築地市場站", time: "09:16 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "09:30",
-                        title: "築地場外市場",
-                        subtitle: "早午餐吃透透",
-                        type: "normal",
-                        details: [
-                            { text: "體驗：在充滿活力的市場巷弄間探索。" },
-                            { text: "美食：找間小店吃「海鮮丼」或「壽司」。" },
-                            { text: "小吃：熱騰騰「玉子燒串」(丸武、山長)、烤扇貝、烤和牛串、草莓大福。" },
-                            { text: "⚠️ 週六人潮眾多，請注意隨身財物。", alert: true }
-                        ]
-                    },
-                    {
-                        time: "11:30",
-                        title: "散步前往濱離宮",
-                        subtitle: "步行消化",
-                        type: "transport",
-                        details: [
-                            { text: "離開市場，導航定位「濱離宮恩賜庭園 大手門」。" },
-                            { text: "沿著新大橋通往新橋方向走，步行約 10-15 分鐘。" }
-                        ],
-                        route: [
-                            { name: "築地市場", time: "11:30 出發", type: "start" },
-                            { name: "濱離宮 (大手門)", time: "11:45 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "12:00",
-                        title: "濱離宮恩賜庭園",
-                        subtitle: "御茶屋抹茶體驗",
-                        type: "normal",
-                        details: [
-                            { text: "在廣闊庭園中散步。" },
-                            { text: "推薦付費進入「中島御茶屋」，喝抹茶、吃和菓子。" },
-                            { text: "欣賞庭園池塘與背景汐留摩天大樓群的古今對比絕景。" }
-                        ]
-                    },
-                    {
-                        time: "13:30",
-                        title: "移動：前往銀座",
-                        subtitle: "步行",
-                        type: "transport",
-                        details: [
-                            { text: "從濱離宮大手門離開。" },
-                            { text: "步行約 10-15 分鐘抵達銀座最熱鬧的「中央通」。" }
-                        ],
-                        route: [
-                            { name: "濱離宮", time: "13:30 出發", type: "start" },
-                            { name: "銀座中央通", time: "13:45 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "14:00",
-                        title: "銀座步行者天國",
-                        subtitle: "下午茶 & 逛街",
-                        type: "normal",
-                        details: [
-                            { text: "體驗：馬路封街，在正中央與「和光鐘樓」合影。" },
-                            { text: "下午茶：資生堂 Parlour 或 Ginza Six 內咖啡廳。" },
-                            { text: "逛街：UNIQLO 旗艦店、無印良品世界旗艦店、各大精品百貨。" }
-                        ]
-                    },
-                    {
-                        time: "16:30",
-                        title: "移動：前往神谷町",
-                        subtitle: "日比谷線",
-                        type: "transport",
-                        details: [
-                            { text: "走到銀座站，搭乘日比谷線 (往中目黑方向)。" }
-                        ],
-                        route: [
-                            { name: "銀座站", time: "16:30 出發", type: "start" },
-                            { name: "日比谷 / 虎之門Hills", time: "途經", type: "mid" },
-                            { name: "神谷町站", time: "16:37 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "17:00",
-                        title: "麻布台之丘 & 鐵塔夜景",
-                        subtitle: "芝公園",
-                        type: "normal",
-                        details: [
-                            { text: "<strong>麻布台之丘</strong>：神谷町站直結，欣賞流線型建築與廣場點燈。" },
-                            { text: "<strong>芝公園 4號地</strong>：步行約 10 分鐘。拍攝東京鐵塔全景最經典角度，欣賞橘色暖光夜景。" }
-                        ]
-                    },
-                    {
-                        time: "19:00",
-                        title: "移動：返回上野",
-                        subtitle: "日比谷線",
-                        type: "transport",
-                        details: [
-                            { text: "回到神谷町站，搭乘日比谷線 (往北千住方向)。" },
-                            { text: "車程約 23 分鐘。" }
-                        ],
-                        route: [
-                            { name: "神谷町站", time: "19:00 出發", type: "start" },
-                            { name: "虎之門/日比谷/銀座", time: "途經", type: "mid" },
-                            { name: "東銀座/築地/八丁堀", time: "途經", type: "mid" },
-                            { name: "茅場町/人形町/秋葉原", time: "途經", type: "mid" },
-                            { name: "上野站", time: "19:23 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "19:30",
-                        title: "晚餐：博多內臟鍋",
-                        subtitle: "上野",
-                        type: "normal",
-                        details: [
-                            { text: "推薦 1 (首選)：<strong>博多滿月 (Hakata Mangetsu) 上野店</strong> (高CP值，熱鬧)。" },
-                            { text: "推薦 2 (備案)：<strong>九州熱中屋 上野 LIVE</strong>。" }
-                        ]
-                    },
-                    {
-                        time: "21:30",
-                        title: "回飯店休息",
-                        subtitle: "最後整理",
-                        type: "important",
-                        details: [
-                            { text: "步行回三井花園飯店。" },
-                            { text: "整理行李，確認戰利品，準備明天回國。" },
-                            { text: "🔥 <strong>再次確認明早 Skyliner 車票已備妥！</strong>", alert: true }
-                        ]
-                    }
+                    { time: "09:45", title: "移動：前往淺草", subtitle: "銀座線", type: "transport", details: [{ text: "從飯店步行至上野站。" }], route: [{ name: "上野站", time: "10:00 發車", type: "start" }, { name: "淺草站", time: "10:06 抵達", type: "end" }] },
+                    { time: "10:30", title: "淺草和服體驗", subtitle: "梨花和服 (已預約)", type: "normal", details: [{ text: "抵達梨花和服，挑選正絹振袖 (約 2 小時)。" }, { text: "12:30 午餐：MISOJYU 飯糰 或 仲見世通炸肉餅。" }, { text: "13:30 拍照：傳法院通、淺草寺、隅田川公園。" }, { text: "15:30 休息：Fuglen Asakusa 咖啡 或 珈琲天國。" }, { text: "16:30 前歸還和服。" }] },
+                    { time: "17:30", title: "移動：回上野", subtitle: "銀座線", type: "transport", details: [{ text: "回飯店放東西、休息。" }], route: [{ name: "淺草站", time: "17:30 出發", type: "start" }, { name: "上野站", time: "17:36 抵達", type: "end" }] },
+                    { time: "18:30", title: "晚餐：燒肉饗宴", subtitle: "犒賞自己", type: "normal", details: [{ text: "選擇 1：<strong>陽山道 上野本店</strong> (優雅老字號)。" }, { text: "選擇 2：<strong>房家 上野六丁目店</strong> (熱鬧高CP值)。" }] }
                 ]
             },
             {
-                day: 10,
-                date: "2026/01/18 (日)",
-                title: "滿載而歸",
-                sunset: "16:57",
-                jrActive: false,
+                day: 9, date: "2026/01/17 (六)", title: "築地美食與鐵塔", sunset: "16:56", jrActive: false,
                 cards: [
-                    {
-                        time: "08:15",
-                        title: "退房與前往車站",
-                        subtitle: "步行",
-                        type: "important",
-                        details: [
-                            { text: "08:15 辦理退房。" },
-                            { text: "前往「京成上野站」 (注意：不是 JR 站)。" },
-                            { text: "準備好護照與預先買好的 Skyliner 車票。" }
-                        ]
-                    },
-                    {
-                        time: "09:00",
-                        title: "Skyliner：前往機場",
-                        subtitle: "回程班次",
-                        type: "transport",
-                        details: [
-                            { text: "班次：搭乘 09:00 (或 09:20) 班次。" },
-                            { text: "車程約 45 分鐘。" }
-                        ],
-                        route: [
-                            { name: "京成上野站", time: "09:00 出發", type: "start" },
-                            { name: "日暮里", time: "途經", type: "mid" },
-                            { name: "成田機場 T1", time: "09:44 抵達", type: "end" }
-                        ]
-                    },
-                    {
-                        time: "11:55",
-                        title: "班機起飛 (TR899)",
-                        subtitle: "酷航 Scoot",
-                        type: "transport",
-                        details: [
-                            { text: "10:00 酷航櫃台報到托運。" },
-                            { text: "10:40 安檢、證照查驗、免稅店。" },
-                            { text: "11:55 起飛，平安返台。" }
-                        ],
-                        route: [
-                            { name: "成田機場 T1", time: "11:55 起飛", type: "start" },
-                            { name: "台北桃園", time: "平安抵達", type: "end" }
-                        ]
-                    }
+                    { time: "09:00", title: "移動：前往築地場外市場", subtitle: "都營大江戶線", type: "transport", details: [{ text: "出發：從飯店步行至「上野御徒町站」(Ueno-okachimachi)。" }, { text: "搭乘：都營大江戶線 (往兩國・大門方向)。" }, { text: "抵達：築地市場站 (E18)。從 A1 出口出站，左轉即達。" }], route: [{ name: "上野御徒町", time: "09:00 出發", type: "start" }, { name: "新御徒町/藏前/兩國", time: "途經", type: "mid" }, { name: "森下/清澄白河/門前仲町", time: "途經", type: "mid" }, { name: "月島/勝どき", time: "途經", type: "mid" }, { name: "築地市場站", time: "09:16 抵達", type: "end" }] },
+                    { time: "09:30", title: "築地場外市場", subtitle: "早午餐吃透透", type: "normal", details: [{ text: "體驗：在充滿活力的市場巷弄間探索。" }, { text: "美食：找間小店吃「海鮮丼」或「壽司」。" }, { text: "小吃：熱騰騰「玉子燒串」(丸武、山長)、烤扇貝、烤和牛串、草莓大福。" }, { text: "⚠️ 週六人潮眾多，請注意隨身財物。", alert: true }] },
+                    { time: "11:30", title: "散步前往濱離宮", subtitle: "步行消化", type: "transport", details: [{ text: "離開市場，導航定位「濱離宮恩賜庭園 大手門」。" }, { text: "沿著新大橋通往新橋方向走，步行約 10-15 分鐘。" }], route: [{ name: "築地市場", time: "11:30 出發", type: "start" }, { name: "濱離宮 (大手門)", time: "11:45 抵達", type: "end" }] },
+                    { time: "12:00", title: "濱離宮恩賜庭園", subtitle: "御茶屋抹茶體驗", type: "normal", details: [{ text: "在廣闊庭園中散步。" }, { text: "推薦付費進入「中島御茶屋」，喝抹茶、吃和菓子。" }, { text: "欣賞庭園池塘與背景汐留摩天大樓群的古今對比絕景。" }] },
+                    { time: "13:30", title: "移動：前往銀座", subtitle: "步行", type: "transport", details: [{ text: "從濱離宮大手門離開。" }, { text: "步行約 10-15 分鐘抵達銀座最熱鬧的「中央通」。" }], route: [{ name: "濱離宮", time: "13:30 出發", type: "start" }, { name: "銀座中央通", time: "13:45 抵達", type: "end" }] },
+                    { time: "14:00", title: "銀座步行者天國", subtitle: "下午茶 & 逛街", type: "normal", details: [{ text: "體驗：馬路封街，在正中央與「和光鐘樓」合影。" }, { text: "下午茶：資生堂 Parlour 或 Ginza Six 內咖啡廳。" }, { text: "逛街：UNIQLO 旗艦店、無印良品世界旗艦店、各大精品百貨。" }] },
+                    { time: "16:30", title: "移動：前往神谷町", subtitle: "日比谷線", type: "transport", details: [{ text: "走到銀座站，搭乘日比谷線 (往中目黑方向)。" }], route: [{ name: "銀座站", time: "16:30 出發", type: "start" }, { name: "日比谷 / 虎之門Hills", time: "途經", type: "mid" }, { name: "神谷町站", time: "16:37 抵達", type: "end" }] },
+                    { time: "17:00", title: "麻布台之丘 & 鐵塔夜景", subtitle: "芝公園", type: "normal", details: [{ text: "<strong>麻布台之丘</strong>：神谷町站直結，欣賞流線型建築與廣場點燈。" }, { text: "<strong>芝公園 4號地</strong>：步行約 10 分鐘。拍攝東京鐵塔全景最經典角度，欣賞橘色暖光夜景。" }] },
+                    { time: "19:00", title: "移動：返回上野", subtitle: "日比谷線", type: "transport", details: [{ text: "回到神谷町站，搭乘日比谷線 (往北千住方向)。" }, { text: "車程約 23 分鐘。" }], route: [{ name: "神谷町站", time: "19:00 出發", type: "start" }, { name: "虎之門/日比谷/銀座", time: "途經", type: "mid" }, { name: "東銀座/築地/八丁堀", time: "途經", type: "mid" }, { name: "茅場町/人形町/秋葉原", time: "途經", type: "mid" }, { name: "上野站", time: "19:23 抵達", type: "end" }] },
+                    { time: "19:30", title: "晚餐：博多內臟鍋", subtitle: "上野", type: "normal", details: [{ text: "推薦 1 (首選)：<strong>博多滿月 (Hakata Mangetsu) 上野店</strong> (高CP值，熱鬧)。" }, { text: "推薦 2 (備案)：<strong>九州熱中屋 上野 LIVE</strong>。" }] },
+                    { time: "21:30", title: "回飯店休息", subtitle: "最後整理", type: "important", details: [{ text: "步行回三井花園飯店。" }, { text: "整理行李，確認戰利品，準備明天回國。" }, { text: "🔥 <strong>再次確認明早 Skyliner 車票已備妥！</strong>", alert: true }] }
+                ]
+            },
+            {
+                day: 10, date: "2026/01/18 (日)", title: "滿載而歸", sunset: "16:57", jrActive: false,
+                cards: [
+                    { time: "08:15", title: "退房與前往車站", subtitle: "步行", type: "important", details: [{ text: "08:15 辦理退房。" }, { text: "前往「京成上野站」 (注意：不是 JR 站)。" }, { text: "準備好護照與預先買好的 Skyliner 車票。" }] },
+                    { time: "09:00", title: "Skyliner：前往機場", subtitle: "回程班次", type: "transport", details: [{ text: "班次：搭乘 09:00 (或 09:20) 班次。" }, { text: "車程約 45 分鐘。" }], route: [{ name: "京成上野站", time: "09:00 出發", type: "start" }, { name: "日暮里", time: "途經", type: "mid" }, { name: "成田機場 T1", time: "09:44 抵達", type: "end" }] },
+                    { time: "11:55", title: "班機起飛 (TR899)", subtitle: "酷航 Scoot", type: "transport", details: [{ text: "10:00 酷航櫃台報到托運。" }, { text: "10:40 安檢、證照查驗、免稅店。" }, { text: "11:55 起飛，平安返台。" }], route: [{ name: "成田機場 T1", time: "11:55 起飛", type: "start" }, { name: "台北桃園", time: "平安抵達", type: "end" }] }
                 ]
             }
         ];
 
-        // --- 邏輯控制 ---
         let currentIndex = 0;
         const container = document.getElementById('content-container');
         const dayIndicator = document.getElementById('day-indicator');
@@ -1060,10 +222,7 @@
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
 
-        function init() {
-            renderAll();
-            updateView();
-        }
+        function init() { renderAll(); updateView(); }
 
         function renderAll() {
             container.innerHTML = '';
@@ -1076,53 +235,24 @@
                 let html = '';
                 day.cards.forEach(card => {
                     let detailsHtml = '';
-                    
                     if (card.details && card.details.length > 0) {
                         detailsHtml += `<div class="section-header">詳細指南</div><ul class="detail-list">`;
-                        card.details.forEach(d => {
-                            detailsHtml += `<li class="detail-item ${d.alert ? 'alert' : ''}">${d.text}</li>`;
-                        });
+                        card.details.forEach(d => { detailsHtml += `<li class="detail-item ${d.alert ? 'alert' : ''}">${d.text}</li>`; });
                         detailsHtml += `</ul>`;
                     }
-
                     if (card.route && card.route.length > 0) {
                         detailsHtml += `<div class="section-header">交通路徑</div><div class="route-visual">`;
                         card.route.forEach((point, i) => {
                             let typeClass = 'point-mid';
                             if (point.type === 'start') typeClass = 'point-start';
                             if (point.type === 'end') typeClass = 'point-end';
-                            
-                            detailsHtml += `
-                                <div class="route-point ${typeClass}">
-                                    <div class="point-dot"></div>
-                                    <div class="point-name">${point.name}</div>
-                                    <div class="point-time">${point.time}</div>
-                                </div>
-                            `;
-                            if (i < card.route.length - 1) {
-                                detailsHtml += `<div class="point-arrow">↓</div>`;
-                            }
+                            detailsHtml += `<div class="route-point ${typeClass}"><div class="point-dot"></div><div class="point-name">${point.name}</div><div class="point-time">${point.time}</div></div>`;
+                            if (i < card.route.length - 1) detailsHtml += `<div class="point-arrow">↓</div>`;
                         });
                         detailsHtml += `</div>`;
                     }
-
-                    html += `
-                        <div class="card" data-type="${card.type}" onclick="toggleCard(this)">
-                            <div class="card-header">
-                                <div class="time-badge">${card.time}</div>
-                                <div class="toggle-icon">▼</div>
-                                <h3 class="card-title">${card.title}</h3>
-                                <div class="card-subtitle">${card.subtitle}</div>
-                            </div>
-                            <div class="card-body">
-                                <div class="body-content">
-                                    ${detailsHtml}
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                    html += `<div class="card" data-type="${card.type}" onclick="toggleCard(this)"><div class="card-header"><div class="time-badge">${card.time}</div><div class="toggle-icon">▼</div><h3 class="card-title">${card.title}</h3><div class="card-subtitle">${card.subtitle}</div></div><div class="card-body"><div class="body-content">${detailsHtml}</div></div></div>`;
                 });
-
                 dayDiv.innerHTML = html;
                 container.appendChild(dayDiv);
             });
@@ -1141,13 +271,10 @@
         function changeDay(offset) {
             const newIndex = currentIndex + offset;
             if (newIndex < 0 || newIndex >= tripData.length) return;
-
             const currentDayDiv = document.getElementById(`day-${currentIndex}`);
             const expandedCards = currentDayDiv.querySelectorAll('.card.expanded');
             expandedCards.forEach(card => card.classList.remove('expanded'));
-
             const delay = expandedCards.length > 0 ? 250 : 0;
-
             setTimeout(() => {
                 currentDayDiv.classList.remove('active');
                 currentIndex = newIndex;
@@ -1164,15 +291,9 @@
             dateDisplay.innerText = data.date;
             sunsetDisplay.innerText = data.sunset;
             dayTitleDisplay.innerText = data.title;
-
             prevBtn.disabled = (currentIndex === 0);
             nextBtn.disabled = (currentIndex === tripData.length - 1);
-            
-            if (data.jrActive) {
-                jrBanner.classList.add('active');
-            } else {
-                jrBanner.classList.remove('active');
-            }
+            if (data.jrActive) jrBanner.classList.add('active'); else jrBanner.classList.remove('active');
         }
 
         init();
